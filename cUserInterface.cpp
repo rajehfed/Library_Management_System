@@ -120,9 +120,10 @@ void cUserInterface::TransactionsMenuScreen(cLibrary& library) {
         cout << "\t\t\t\t\t\t[2] Remove Member" << "\n";
         cout << "\t\t\t\t\t\t[3] Add Book" << "\n";
         cout << "\t\t\t\t\t\t[4] Remove Book" << "\n";
-        cout << "\t\t\t\t\t\t[5] Show All Members" << "\n";
-        cout << "\t\t\t\t\t\t[6] Back to Main Menu" << "\n";
-        PerformeTransaction(library, static_cast<enAdminTransactionsOptions>(readNumber(1, 6)));
+        cout << "\t\t\t\t\t\t[5] Modify Book" << "\n";
+        cout << "\t\t\t\t\t\t[6] Show All Members" << "\n";
+        cout << "\t\t\t\t\t\t[7] Back to Main Menu" << "\n";
+        PerformeTransaction(library, static_cast<enAdminTransactionsOptions>(readNumber(1, 7)));
     }
     cout << "You Are Not Enable To Do this extension!!" << endl;
 }
@@ -149,6 +150,12 @@ void cUserInterface::PerformeTransaction(cLibrary& lib, enAdminTransactionsOptio
         case eRemoveBook:
             system("cls");
             lib.RemoveBook(readId());
+            GoBackToTransactionsMenu(lib);
+        break;
+
+        case eModify:
+            system("cls");
+            lib.ModifyingBook();
             GoBackToTransactionsMenu(lib);
         break;
 

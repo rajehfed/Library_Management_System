@@ -14,7 +14,7 @@ using namespace std;
 
 class cUserInterface {
 private:
-    enum enAdminTransactionsOptions {eAddMemeber = 1, eRemoveMemeber = 2, eAddBook = 3, eRemoveBook = 4, eShowMembers = 5};
+    enum enAdminTransactionsOptions {eAddMemeber = 1, eRemoveMemeber = 2, eAddBook = 3, eRemoveBook = 4, eModify = 5, eShowMembers = 6};
     enum enMainMenuOptions {eShow = 1, eBorrow = 2, eReturn = 3, eFind = 4, eTransactions = 5, eStatus = 6, eQuit = 7};
     cMember currentMember;
 

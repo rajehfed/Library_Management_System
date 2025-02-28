@@ -36,6 +36,32 @@ cBook *cLibrary::findBook(const string &name) {
     }
     return nullptr;
 }
+cBook *cLibrary::modifyBook(const string &name) {
+    if (isBookExistByName(name)) {
+        cBook *book = findBook(name);
+        if (!book) return nullptr;  // ✅ Prevents null pointer dereferencing
+
+        string title, author;
+        short quantity = 0;
+
+        cout << "Enter new title: ";
+        cin.ignore();  // ✅ Clears newline from the buffer before using getline
+        getline(cin, title);
+
+        cout << "Enter new author: ";
+        getline(cin, author);
+
+        cout << "Enter new quantity: ";
+        cin >> quantity;
+
+        book->setTitle(title);
+        book->setAuthor(author);
+        book->setQuantity(quantity);
+
+        return book;
+    }
+    return nullptr;
+}
 
 bool cLibrary::isBookExist(int id) {
     for (auto& book : _vBooks) {
@@ -43,6 +69,15 @@ bool cLibrary::isBookExist(int id) {
             return true;
         }
     }
+    return false;
+}
+bool cLibrary::isBookExistByName(const string &name) const {
+    for (auto& book : _vBooks) {
+        if (book.Title() == name) {
+            return true;
+        }
+    }
+    cout << "\t\t\t\t\t\t" << name << " does not exist" << endl;
     return false;
 }
 
@@ -116,6 +151,39 @@ void cLibrary::FindBookByName() {
         cout << "\033[31mBook not found :-( \033[0m" << endl;
     }
 }
+void cLibrary::ModifyingBook() {
+    cout << "\t\t\t" << string(80, '-') << "\n";
+    cout << "\t\t\t\t\t\t" << "Modify book by name screen" << endl;
+    cout << "\t\t\t" << string(80, '-') << "\n";
+
+    string bookName = cUserInterface::readBookName();
+
+    cBook* book = findBook(bookName);
+
+    if (!book) {  // ✅ Fix: Check if book exists before dereferencing
+        cout << "\t\t\tBook not found!\n";
+        return;
+    }
+
+    displayBook(*book);
+
+    char a;
+    do {
+        cout << "\t\t\t\t\t\t" << "Are you sure this is the target book? {y/n}: ";
+        cin >> a;
+        a = toupper(a);
+    } while (a != 'Y' && a != 'N');
+
+    if (a == 'Y') {  // ✅ Fix: Only modify if user confirms
+        modifyBook(bookName);
+        cData::SaveBooksDataToFile("./libraryData.txt", _vBooks);
+        reloadBooks();
+        cout << "\t\t\t\t\t\tBook Updated Successfully!!" << endl;
+    } else {
+        cout << "\t\t\tModification cancelled.\n";
+    }
+}
+
 
 void cLibrary::BorrowBook(const string& bookName) {
     if (_vBooks.empty()) {

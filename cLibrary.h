@@ -20,7 +20,9 @@ private:
 
 protected:
     vector<cMember> _vMembers;
+
     bool isBookExist(int id);
+    bool isBookExistByName(const string& name) const;
 
     static void displayBook(const cBook& book);
 
@@ -33,6 +35,7 @@ public:
     void reloadBooks();
 
     cBook* findBook(const string& name);
+    cBook* modifyBook(const string& name);
 
     void AddBook(cBook book);
     void RemoveBook(int id);
@@ -41,6 +44,7 @@ public:
     void ReturnBook(const string& bookName);
 
     void FindBookByName();
+    void ModifyingBook();
 
     void ShowAvailableBooks();
     void ShowLibraryStatus();
