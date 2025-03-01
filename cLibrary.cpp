@@ -184,7 +184,6 @@ void cLibrary::ModifyingBook() {
     }
 }
 
-
 void cLibrary::BorrowBook(const string& bookName) {
     if (_vBooks.empty()) {
         cout << "There are no books in this library." << endl;

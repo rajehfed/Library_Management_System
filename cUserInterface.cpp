@@ -32,6 +32,13 @@ int cUserInterface::readNumber(const short From, const short To) {
 
     return num;
 }
+string cUserInterface::readName(const string &message) {
+    cout << "\t\t\t" << message << endl;
+    string name;
+    getline(cin, name);
+    return name;
+}
+
 string cUserInterface::readBookName() {
     string bookName;
     cout << "Please enter your book name: ";
@@ -50,15 +57,15 @@ void cUserInterface::MainMenuScreen() {
     cout << "\n\n\n";
     cout << "\t\t\t" << string(80, '-') << endl;
     cout << "\t\t\t\t\t\tWelcome To The Main Menu Library!" << endl;
-    cout << "\t\t\t" << string(80, '-') << endl;
-    cout << "\t\t\t\t\t\t[1] Show Available Books" << "\n";
-    cout << "\t\t\t\t\t\t[2] Borrow Book" << "\n";
-    cout << "\t\t\t\t\t\t[3] Return Book" << "\n";
-    cout << "\t\t\t\t\t\t[4] Find Book" << "\n";
-    cout << "\t\t\t\t\t\t[5] Transactions" << "\n";
-    cout << "\t\t\t\t\t\t[6] Library Status" << "\n";
-    cout << "\t\t\t\t\t\t[7] Exit" << "\n";
-    PerformeMainMenuOptions(lib, static_cast<enMainMenuOptions>(readNumber(1, 6)));
+    cout << "\t\t\t" << string(80, '-') << "\n" << endl;
+    cout << "\t\t\t\t\t\t\033[105m  [1] Show Available Books \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[42m  [2] Borrow Book          \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[44m  [3] Return Book          \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[46m  [4] Find Book            \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[43m  [5] Transactions         \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[45m  [6] Library Status       \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[41m  [7] Exit                 \033[0m" << "\n\n";
+    PerformeMainMenuOptions(lib, static_cast<enMainMenuOptions>(readNumber(1, 7)));
 }
 void cUserInterface::PerformeMainMenuOptions(cLibrary& library, enMainMenuOptions mainMenuOptions) {
     switch (mainMenuOptions) {
@@ -114,16 +121,17 @@ void cUserInterface::TransactionsMenuScreen(cLibrary& library) {
     if (currentMember.isAdmin()) {
         cout << "\n\n\n";
         cout << "\t\t\t" << string(80, '-') << endl;
-        cout << "\t\t\t\t\t\tTransactions Screen" << endl;
-        cout << "\t\t\t" << string(80, '-') << endl;
-        cout << "\t\t\t\t\t\t[1] Add Member" << "\n";
-        cout << "\t\t\t\t\t\t[2] Remove Member" << "\n";
-        cout << "\t\t\t\t\t\t[3] Add Book" << "\n";
-        cout << "\t\t\t\t\t\t[4] Remove Book" << "\n";
-        cout << "\t\t\t\t\t\t[5] Modify Book" << "\n";
-        cout << "\t\t\t\t\t\t[6] Show All Members" << "\n";
-        cout << "\t\t\t\t\t\t[7] Back to Main Menu" << "\n";
-        PerformeTransaction(library, static_cast<enAdminTransactionsOptions>(readNumber(1, 7)));
+        cout << "\t\t\t\t\t\t\tTransactions Screen" << endl;
+        cout << "\t\t\t" << string(80, '-') << "\n" << endl;
+        cout << "\t\t\t\t\t\t     \033[46m  [1] Add Member        \033[0m" << "\n\n";
+        cout << "\t\t\t\t\t\t     \033[46m  [2] Remove Member     \033[0m" << "\n\n";
+        cout << "\t\t\t\t\t\t     \033[101m  [3] Add Book          \033[0m" << "\n\n";
+        cout << "\t\t\t\t\t\t     \033[101m  [4] Remove Book       \033[0m" << "\n\n";
+        cout << "\t\t\t\t\t\t     \033[101m  [5] Modify Book       \033[0m" << "\n\n";
+        cout << "\t\t\t\t\t\t     \033[101m  [6] Modify Member     \033[0m" << "\n\n";
+        cout << "\t\t\t\t\t\t     \033[102m  [7] Show All Members  \033[0m" << "\n\n";
+        cout << "\t\t\t\t\t\t     \033[102m  [8] Back to Main Menu \033[0m" << "\n\n";
+        PerformeTransaction(library, static_cast<enAdminTransactionsOptions>(readNumber(1, 8)));
     }
     cout << "You Are Not Enable To Do this extension!!" << endl;
 }
@@ -159,6 +167,12 @@ void cUserInterface::PerformeTransaction(cLibrary& lib, enAdminTransactionsOptio
             GoBackToTransactionsMenu(lib);
         break;
 
+        case eModifyMember:
+            system("cls");
+            cMember::ModifyMemberByName(lib);
+            GoBackToTransactionsMenu(lib);
+        break;
+
         case eShowMembers:
             system("CLS");
             cMember::displayAllMembers(lib);
@@ -183,14 +197,22 @@ void cUserInterface::login() {
     string userPassword;
     lib.setMembers(cData::LoadMemberDataFromFile("./membersData.txt"));
 
-    cout << "Please enter your username: ";
+    system("cls");
+    cout << "\n\n\n";
+    cout << "\t\t\t" << string(80, '-') << endl;
+    cout << "\t\t\t\t\t\tWelcome To Login Screen!" << endl;
+    cout << "\t\t\t" << string(80, '-') << endl;
+
+    cout << "\t\t\t\033[94mPlease enter your username: \033[0m";
     getline(cin, userName);
 
-    cout << "Please enter your password: ";
+    cout << "\t\t\t\033[94mPlease enter your password: \033[0m";
     getline(cin, userPassword);
 
     if (cMember::isMemberExist(lib, userName, userPassword, currentMember))
         MainMenuScreen();
-    else
-        cout << "Invalid Username or Password! Please try again!" << endl;
+    else {
+        cout << "\t\t\t\033[91mInvalid Username or Password! Please try again!\033[0m" << endl;
+        cin.ignore();
+    }
 }

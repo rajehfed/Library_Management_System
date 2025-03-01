@@ -39,12 +39,19 @@ public:
 
     static cMember readMember(cLibrary& lib);
     void displayMemberInfo() const;
+    static void displayMemberCard(cMember& member) ;
+
+    static cMember* findMember(const std::string& userName, cLibrary& lib);
+    static cMember* modifyMember(const std::string& userName, cLibrary& lib);
 
     static void addMember(cLibrary& lib, const cMember &member);
     static void removeMember(cLibrary& lib, int memberId);
 
     static void AddMemberScreen(cLibrary& lib);
     static void removeMemberScreen(cLibrary& lib);
+
+    static void FindMemberByName(cLibrary& lib);
+    static void ModifyMemberByName(cLibrary& lib);
 
     static void PrintMemberRecordWithId(cLibrary& lib, int memberId);
     static void PrintMemberRecord(const cMember& member);

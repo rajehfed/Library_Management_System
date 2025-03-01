@@ -117,6 +117,48 @@ void cMember::displayMemberInfo() const {
         <<  "Phone Number: " << _phoneNumber << "\n"
         << "----------------------------\n";
 }
+void cMember::displayMemberCard(cMember &member) {
+    cout << "\t\t\tUser ID            : " << member._id << "\n";
+    cout << "\t\t\tUser name          : " << member._name << "\n";
+    cout << "\t\t\tUser password      : " << member._password << "\n";
+    cout << "\t\t\tUser Phone number  : " << member._isAdmin << "\n";
+    cout << "\t\t\tUser Administrator : " << member._isAdmin << "\n";
+}
+
+cMember* cMember::findMember(const string& name, cLibrary& lib) {
+    for (auto& m : lib.Members()) {
+        if (name == m.Name()) {
+            return &m;
+        }
+    }
+    return nullptr;
+}
+cMember *cMember::modifyMember(const string &UserName, cLibrary &lib) {
+    cMember *member = findMember(UserName, lib);
+    if (!member) return nullptr;
+    string userName, userPassword, phoneNumber;
+    int roll;
+
+    cout << "Enter new User Name: ";
+    cin.ignore();  // ✅ Clears newline from the buffer before using getline
+    getline(cin, userName);
+
+    cout << "Enter New Password: ";
+    getline(cin, userPassword);
+
+    cout << "Enter New Phone Number: ";
+    getline(cin, phoneNumber);
+
+    cout << "Make The member admin? (1 = Yes, 0 = No): ";
+    cin >> roll;
+
+    member->setName(userName);
+    member->setPassword(userPassword);
+    member->setPhoneNumber(phoneNumber);
+    member->setIsAdmin(roll == 1);
+
+    return member;
+}
 
 void cMember::addMember(cLibrary& lib, const cMember &member)  {
     for (const auto& m : lib._vMembers) {
@@ -191,6 +233,59 @@ void cMember::removeMemberScreen(cLibrary& lib) {
 
     int memberId = cUserInterface::readId();
     removeMember(lib, memberId);
+}
+
+void cMember::FindMemberByName(cLibrary &lib) {
+    cout << "\t\t\t" << string(80, '-') << endl;
+    cout << "\t\t\t\t\t\tFind Member Screen" << endl;
+    cout << "\t\t\t" << string(80, '-') << endl;
+    cout << "\n";
+
+    const string name = cUserInterface::readName("Please enter member name");
+    cMember* member = findMember(name, lib);
+
+    if (member != nullptr) {
+        cout << "\t\t\t\t" << "\033[1;32mMember found : " << member->Id() << "\033[0m" << endl;
+        cout << "\t\t\t\t";
+        displayMemberCard(*member);
+    } else {
+        cout << "\033[31mMember not found :-( \033[0m" << endl;
+    }
+}
+void cMember::ModifyMemberByName(cLibrary &lib) {
+    cout << "\t\t\t" << string(80, '-') << endl;
+    cout << "\t\t\t\t\t\tModify Member Screen" << endl;
+    cout << "\t\t\t" << string(80, '-') << endl;
+
+    const string name = cUserInterface::readName("Please enter member name");
+    cMember* member = findMember(name, lib);
+
+    if (!member) {  // ✅ Return if member not found
+        cout << "\t\t\t\033[31mMember not found!\033[0m\n";
+        return;
+    }
+
+    displayMemberCard(*member);
+
+    char a;
+    do {
+        cout << "\t\t\t\t\t\t" << "Are you sure this is the target member? {y/n}: ";
+        cin >> a;
+        a = toupper(a);
+    } while (a != 'Y' && a != 'N');
+
+    if (a == 'Y') {
+        cMember* modifiedMember = modifyMember(name, lib);
+        if (modifiedMember) {  // ✅ Check if modification was successful
+            cData::SaveMemberDataToFile("./libraryData.txt", lib._vMembers);
+            lib.reloadMembers();
+            cout << "\t\t\t\t\t\t\033[1;32mMember Updated Successfully!!\033[0m" << endl;
+        } else {
+            cout << "\t\t\t\033[31mFailed to modify member.\033[0m\n";
+        }
+    } else {
+        cout << "\t\t\tModification cancelled.\n";
+    }
 }
 
 void cMember::PrintMemberRecordWithId(cLibrary &lib, int memberId) {
