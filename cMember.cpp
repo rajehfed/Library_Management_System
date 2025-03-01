@@ -81,6 +81,7 @@ bool cMember::isAdmin() const {
     return this->_isAdmin;
 }
 
+
 cMember cMember::readMember(cLibrary& lib) {
     cMember member;
 
