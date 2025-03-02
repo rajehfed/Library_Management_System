@@ -68,8 +68,9 @@ cBook cData::convertStringToBook(vector<string> vBooksData) {
     book.setId(stoi(vBooksData[0]));
     book.setTitle(vBooksData[1]);
     book.setAuthor(vBooksData[2]);
-    book.setQuantity(static_cast<short>(stoi(vBooksData[3])));
-    book.setIsAvailable(static_cast<bool>(stoi(vBooksData[3])));
+    book.setTotalStock(static_cast<short>(stoi(vBooksData[3])));
+    book.setQuantity(static_cast<short>(stoi(vBooksData[4])));
+    book.setIsAvailable(static_cast<bool>(stoi(vBooksData[5])));
     return book;
 }
 
@@ -90,6 +91,7 @@ string cData::ConvertBookToString(cBook book) {
     sWord += to_string(book.Id()) + "/%%/";
     sWord += book.Title() + "/%%/";
     sWord += book.Author() + "/%%/";
+    sWord += to_string(book.TotalStock()) + "/%%/";
     sWord += to_string(book.Quantity()) + "/%%/";
     sWord += to_string(book.IsAvailable());
 
@@ -129,7 +131,7 @@ vector<cBook> cData::LoadBooksDataFromFile(string fileName) {
         while (getline(MyFile, sLine)) {
             vector<string> vTokens = Split(sLine, "/%%/");
 
-            if (vTokens.size() == 5) {
+            if (vTokens.size() == 6) {
                 cBook book = convertStringToBook(vTokens);
                 vBooksData.push_back(book);
             }

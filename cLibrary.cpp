@@ -21,6 +21,14 @@ vector<cMember> &cLibrary::Members() {
 void cLibrary::setMembers(const vector<cMember> &members) {
     _vMembers = members;
 }
+
+map<string, cBook> &cLibrary::BorrowedBooks() {
+    return _borrowedBooks;
+}
+void cLibrary::setBorrowedBooks(const map<string, cBook> &borrowedBooks) {
+    _borrowedBooks = borrowedBooks;
+}
+
 void cLibrary::reloadMembers() {
     _vMembers = cData::LoadMemberDataFromFile("./membersData.txt");
 }
@@ -59,6 +67,15 @@ cBook *cLibrary::modifyBook(const string &name) {
         book->setQuantity(quantity);
 
         return book;
+    }
+    return nullptr;
+}
+
+cBook *cLibrary::findBorrowedBook(const string& name) {
+    for (auto& book : BorrowedBooks()) {
+        if (book.first == name) {
+            return &book.second;
+        }
     }
     return nullptr;
 }
@@ -127,6 +144,19 @@ void cLibrary::ShowAvailableBooks() {
             displayBook(book);
     }
 }
+void cLibrary::ShowBorrowedBooks() {
+    if (_borrowedBooks.empty()) {
+        cout << "\t\t\t\t\tNo books are currently borrowed.\n";
+        return;
+    }
+
+    cout << "\n\t\t\t\t\t=== Borrowed Books ===\n";
+
+    for (const auto& [_, book] : _borrowedBooks) {  // Structured binding
+        cout << "\t\t\t\t\t Book ID    : " << book.Id() << '\n'
+             << "\t\t\t\t\t Book Title : " << book.Title() << "\n\n";
+    }
+}
 void cLibrary::ShowLibraryStatus() {
     cout << "Library Statistics \n";
     cout << string(80, '-') << "\n";
@@ -185,33 +215,45 @@ void cLibrary::ModifyingBook() {
 }
 
 void cLibrary::BorrowBook(const string& bookName) {
+    if (findBorrowedBook(bookName)) {
+        cout << "You cannot borrow more than one book!!" << endl;
+        return;
+    }
+
     if (_vBooks.empty()) {
         cout << "There are no books in this library." << endl;
         return;
     }
-    for (auto& book : _vBooks) {
-        if (book.Title() == bookName) {
-            if (book.IsAvailable()) {
-                book.markAsBorrowed();
-                cData::SaveBooksDataToFile("./libraryData.txt", _vBooks);
-                cout << "The book with the name \'" << bookName << "\' is successfully borrowed!!" << endl;
-                return;
-            } else {
-                cout << "Sorry, the book '" << bookName << "' is already borrowed." << endl;
-                return;
-            }
-        }
+
+    cBook* book = findBook(bookName);
+    if (book == nullptr) {
+        cout << "We cannot find the book that you want to borrow!!\n";
+        return;
     }
-    cout << "The book '" << bookName << "' does not exist in the library." << endl;
+    else {
+        BorrowedBooks()[book->Title()] = *book;
+        book->markAsBorrowed();
+        cData::SaveBooksDataToFile("./libraryData.txt", _vBooks);
+        reloadBooks();
+        cout << "\t\t\t\t\t\tBook Borrowed Successfully!!" << endl;
+    }
 }
 void cLibrary::ReturnBook(const string& bookName) {
-    for (auto& book : _vBooks) {
-        if (book.Title() == bookName) {
-            book.markAsReturned();
-            cData::SaveBooksDataToFile("./libraryData.txt", _vBooks);
-            cout << "The book with the name \'" << bookName << "\' is successfully returned!!" << endl;
-            return;
-        }
+    cBook* book = findBorrowedBook(bookName);
+
+    if (book == nullptr) {
+        cout << "This book is not borrowed!!" << endl;
+        return;
     }
-    cout << "The book '" << bookName << "' does not exist in the library." << endl;
+
+    // Check if returning more books than initially stocked
+    if (book->TotalStock() >= book->Quantity()) {
+        cout << "Error: Cannot return more books than originally available!" << endl;
+        return;
+    }
+
+    BorrowedBooks().erase(bookName);
+    book->markAsReturned();
+    cData::SaveBooksDataToFile("./libraryData.txt", _vBooks);
+    cout << "The book '" << bookName << "' has been successfully returned!" << endl;
 }

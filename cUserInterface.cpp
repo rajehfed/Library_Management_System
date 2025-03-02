@@ -56,16 +56,17 @@ void cUserInterface::MainMenuScreen() {
     system("cls");
     cout << "\n\n\n";
     cout << "\t\t\t" << string(80, '-') << endl;
-    cout << "\t\t\t\t\t\tWelcome To The Main Menu Library!" << endl;
+    cout << "\t\t\t\tWelcome To The Main Menu Library!\t\tUser: " << currentMember.Name() << endl;
     cout << "\t\t\t" << string(80, '-') << "\n" << endl;
     cout << "\t\t\t\t\t\t\033[105m  [1] Show Available Books \033[0m" << "\n\n";
     cout << "\t\t\t\t\t\t\033[42m  [2] Borrow Book          \033[0m" << "\n\n";
     cout << "\t\t\t\t\t\t\033[44m  [3] Return Book          \033[0m" << "\n\n";
-    cout << "\t\t\t\t\t\t\033[46m  [4] Find Book            \033[0m" << "\n\n";
-    cout << "\t\t\t\t\t\t\033[43m  [5] Transactions         \033[0m" << "\n\n";
-    cout << "\t\t\t\t\t\t\033[45m  [6] Library Status       \033[0m" << "\n\n";
-    cout << "\t\t\t\t\t\t\033[41m  [7] Exit                 \033[0m" << "\n\n";
-    PerformeMainMenuOptions(lib, static_cast<enMainMenuOptions>(readNumber(1, 7)));
+    cout << "\t\t\t\t\t\t\033[44m  [4] Show Borrowed Books  \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[46m  [5] Find Book            \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[43m  [6] Transactions         \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[45m  [7] Library Status       \033[0m" << "\n\n";
+    cout << "\t\t\t\t\t\t\033[41m  [8] Exit                 \033[0m" << "\n\n";
+    PerformeMainMenuOptions(lib, static_cast<enMainMenuOptions>(readNumber(1, 8)));
 }
 void cUserInterface::PerformeMainMenuOptions(cLibrary& library, enMainMenuOptions mainMenuOptions) {
     switch (mainMenuOptions) {
@@ -84,6 +85,12 @@ void cUserInterface::PerformeMainMenuOptions(cLibrary& library, enMainMenuOption
         case eReturn:
             system("cls");
             library.ReturnBook(readBookName());
+            GoBackToTheMainManu();
+        break;
+
+        case eShowBorrowedBooks:
+            system("cls");
+            library.ShowBorrowedBooks();
             GoBackToTheMainManu();
         break;
 

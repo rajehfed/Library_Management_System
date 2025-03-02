@@ -36,6 +36,9 @@ void cBook::setAuthor(string author) {
 void cBook::setIsAvailable(bool isAvailable) {
     this->_isAvailable = isAvailable;
 }
+void cBook::setTotalStock(short initialQuantity) {
+    this->_totalStock = initialQuantity;
+}
 void cBook::setQuantity(int quantity) {
     this->_quantity = quantity;
 }
@@ -51,6 +54,9 @@ string cBook::Author() const {
 }
 bool cBook::IsAvailable() const {
     return this->_isAvailable;
+}
+short cBook::TotalStock() const {
+    return this->_totalStock;
 }
 short cBook::Quantity() const {
     return this->_quantity;
@@ -73,13 +79,13 @@ void cBook::markAsReturned() {
 }
 
 void cBook::increaseQuantity(short quantity) {
-    setQuantity(Quantity() + quantity);
+    setTotalStock(Quantity() + quantity);
 }
 void cBook::decreaseQuantity(short quantity) {
     if (quantity > Quantity()) {
         cout << "Quantity exceeded" << endl;
     } else {
-        setQuantity(Quantity() - quantity);
+        setTotalStock(Quantity() - quantity);
     }
 }
 
@@ -102,6 +108,8 @@ cBook cBook::ReadBook() {
         cout << "Please enter the quantity[You Cannot Make 0]: ";
         cin >> book._quantity;
     }
+
+    book._totalStock = book.Quantity();
 
     book._isAvailable = true;
     return book;

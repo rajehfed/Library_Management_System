@@ -15,6 +15,7 @@ private:
     string _title;
     string _author;
     bool _isAvailable;
+    short _totalStock;
     short _quantity;
 
 public:
@@ -25,12 +26,14 @@ public:
     void setTitle(string title);
     void setAuthor(string author);
     void setIsAvailable(bool isAvailable);
+    void setTotalStock(short initialQuantity);
     void setQuantity(int quantity);
 
     int Id() const;
     string Title() const;
     string Author() const;
     bool IsAvailable() const;
+    short TotalStock() const;
     short Quantity() const;
 
     void markAsReturned();
