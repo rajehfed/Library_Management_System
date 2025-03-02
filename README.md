@@ -1,75 +1,82 @@
-# 📚 Library Management System
+# 📚 Library Management System  
 
-## 🔹 About the Project
-The **Library Management System** is a **C++ console application** designed to efficiently manage books and members in a library. It allows users to add, modify, search, and manage books and members while ensuring data persistence using file handling.
+A **simple yet efficient** C++ library management system that allows users to **borrow, return, and manage books** with ease. This project is built with **object-oriented programming (OOP) principles** and includes a **command-line interface** for user interaction.  
+This project provides a **search functions**,  **error handling** and **user authentication system** for every roll in the system 
+I make this project in one week (1 hour per day) since i steel a beginner 😅  
 
-## 🚀 Features
-- 📖 **Book Management**: Add, modify, search, and display books.
-- 👤 **Member Management**: Register members, authenticate users, and assign admin roles.
-- 🔍 **Search Functionality**: Find books by name and check availability.
-- 📂 **Data Persistence**: Uses text files to store books and members data.
-- 🔒 **Authentication System**: Validates users and admin access.
+## 🚀 Features  
 
-## 🛠️ Technologies Used
-- **C++** (Object-Oriented Programming)
-- **File Handling (fstream)** for data storage
-- **CLion IDE** for development
+✔️ **Borrow Books** – Users can borrow books if they are available.  
+✔️ **Return Books** – Return borrowed books to the system.  
+✔️ **Show Borrowed Books** – View all borrowed books.  
+✔️ **Manage Books** – Add, remove, or update book details.  
+✔️ **File Storage** – Books data is stored in `libraryData.txt`.  
+✔️ **Show Members** - Admins can Show the available members `membersData.txt`.  
+✔️ **Manage Members** - Admins can modify any member.  
 
-## 📂 Project Structure
+## 🛠 Technologies Used  
+
+- **C++** – Core programming language  
+- **OOP (Object-Oriented Programming)** – Used to structure the system  
+- **File Handling (`fstream`)** – To store and retrieve book data  
+- **CMake** – For project build configuration
+- **CLion** - For Devolopment
+- **Obsidian** - For taking notes and make the flowcharts for algorithme
+
+## 📂 Project Structure  
+
 ```
-📦 LibraryManagementSystem
- ┣ 📂 src
- ┃ ┣ 📜 cLibrary.cpp
- ┃ ┣ 📜 cBook.cpp
- ┃ ┣ 📜 cMember.cpp
- ┃ ┣ 📜 cData.cpp
- ┃ ┗ 📜 main.cpp
- ┣ 📂 include
- ┃ ┣ 📜 cLibrary.h
- ┃ ┣ 📜 cBook.h
- ┃ ┣ 📜 cMember.h
- ┃ ┗ 📜 cData.h
- ┣ 📜 libraryData.txt  (Stores books data)
- ┣ 📜 membersData.txt  (Stores members data)
- ┗ 📜 README.md
+📦 LibraryManagementSystem  
+ ┣ 📂 src/                 # Source files  
+ ┃ ┣ 📄 cBook.cpp          # Book class implementation  
+ ┃ ┣ 📄 cLibrary.cpp       # Library system logic  
+ ┃ ┣ 📄 cMember.cpp        # Member-related operations  
+ ┃ ┣ 📄 cData.cpp          # Data handling (saving/loading books)  
+ ┃ ┣ 📄 cUserInterface.cpp # Command-line user interface  
+ ┃ ┗ 📄 main.cpp           # Entry point of the program  
+ ┣ 📄 CMakeLists.txt       # CMake configuration  
+ ┣ 📄 README.md            # Project documentation  
+┗ 📄 libraryData.txt       # Data storage for books  
 ```
 
-## 🏗️ Installation & Usage
-### 🔹 Prerequisites
-Ensure you have the following installed:
-- **C++ Compiler** (g++, clang++, or MSVC)
-- **CLion IDE** (or any C++ IDE)
+## 🚀 Getting Started  
 
-### 🔹 Clone the Repository
+### 1️⃣ Clone the Repository  
 ```sh
-git clone https://github.com/RFedili/LibraryManagementSystem.git
+git clone https://github.com/rajehfed/LibraryManagementSystem.git
 cd LibraryManagementSystem
 ```
 
-### 🔹 Compile & Run
-If using **g++ (GCC)**:
+### 2️⃣ Build the Project  
 ```sh
-g++ -o librarySystem src/*.cpp -I include && ./librarySystem
+mkdir build && cd build
+cmake ..
+make
 ```
 
-If using **CLion**:
-1. Open the project in CLion.
-2. Configure **CMakeLists.txt** if needed.
-3. Click **Run** or use `Shift + F10`.
+### 3️⃣ Run the Application  
+```sh
+./LibraryManagementSystem
+```
 
-## 🖥️ Usage Guide
-1. **Run the application**
-2. **Choose an option** from the main menu
-3. **Follow the prompts** to manage books or members
+## 📌 How It Works  
 
-## 🛠️ Contributing
-Contributions are welcome! Feel free to fork the repo and submit a pull request.
+- 📚 **Adding Books**: Books can be added to the system via `cBook` class.  
+- 🎯 **Borrowing a Book**: The system checks if a book is available before allowing it to be borrowed.  
+- 🔄 **Returning a Book**: If the book exists in the borrowed list, it is returned successfully.  
+- 💜 **Viewing Borrowed Books**: Displays a list of all currently borrowed books.  
+- ➕ **Adding/Remove/Modifying Users** this extension is only for the admins of the system.
 
-## 📬 Contact & Socials
-📷 [Instagram](https://www.instagram.com/rajeh23f/)  
-💼 [LinkedIn](https://www.linkedin.com/in/rajeh-fedili-a737ab230/)  
-✖️ [X (Twitter)](https://x.com/RFedili)  
+## 🛠 Future Improvements  
 
-## 📜 License
-This project is **open-source** and licensed under the MIT License.
+- ✅ Add an other **Rolls** to make the project more efficient.  
+- ✅ Make **GUI** for better experiance.  
+
+## 📌 Contributing  
+
+Contributions are **welcome!** If you want to improve the project, feel free to fork the repo and submit a pull request.  
+
+## 📄 License  
+
+This project is **open-source** and available under the **MIT License**.  
 
