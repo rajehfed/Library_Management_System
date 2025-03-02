@@ -123,6 +123,7 @@ void cUserInterface::GoBackToTheMainManu() {
     MainMenuScreen();
 }
 
+
 void cUserInterface::TransactionsMenuScreen(cLibrary& library) {
     system("cls");
     if (currentMember.isAdmin()) {
